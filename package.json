@@ -2,14 +2,15 @@
   "name": "electron_test",
   "version": "1.0.0",
   "author": "Prokop Simek <prokopsimek@gmail.com>",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/jest": "^24.0.15",
     "@types/nock": "^10.0.3",
     "@types/node": "^10",
     "@typescript-eslint/eslint-plugin": "^1.13.0",
     "@typescript-eslint/parser": "^1.13.0",
+    "electron": "^5.0.8",
+    "electron-builder": "^21.1.5",
     "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-prettier": "^3.1.0",
@@ -24,8 +25,7 @@
   "engines": {
     "node": ">=8.0.0"
   },
-  "keywords": [
-  ],
+  "keywords": [],
   "license": "MIT",
   "main": "lib/index.js",
   "scripts": {
@@ -33,10 +33,20 @@
     "build:watch": "yarn build -w",
     "lint": "eslint 'src/**/*.ts'",
     "lint:fix": "yarn lint --fix",
-    "prepack": "yarn build",
-    "start": "./bin/run",
+    "prepack": "yarn build && cp static/* lib",
+    "predist": "yarn prepack",
+    "prestart": "yarn build",
+    "start": "electron .",
     "test": "jest",
     "test:watch": "jest --watch",
-    "validate": "yarn install && yarn build && yarn lint && yarn test"
+    "validate": "yarn install && yarn build && yarn lint && yarn test",
+    "pack": "electron-builder --dir",
+  "dist": "electron-builder"
+  },
+  "build": {
+    "appId": "com.example.electron_test",
+    "mac": {
+      "category": "com.example.electron_test"
+    }
   }
 }
